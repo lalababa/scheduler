@@ -51,10 +51,10 @@ describe("Appointments", () => {
     cy.contains("Confirm").click();
     
     //check that the "Deleting" indicator should exist
-    cy.contains("deleting").should("exist");
+    cy.contains("Deleting").should("exist");
 
     //Then check that the "Deleting" indicator should not exist.
-    cy.contains("deleting").should("not.exist");
+    cy.contains("Deleting").should("not.exist");
 
     cy.contains(".appointment__card--show", "Archie Cohen").should("not.exist");
 
