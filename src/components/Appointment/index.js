@@ -73,7 +73,7 @@ export default function Appointment(props) {
       )}
       {mode === DELETING && (
         <Status 
-        message="deleting" 
+        message="Deleting" 
         />
       )}
       {mode === EDITING && (
@@ -95,7 +95,7 @@ export default function Appointment(props) {
         <Confirm
         onConfirm={cancel}
         onCancel={back} 
-        message="confirming"
+        message="Are you sure you would like to delete?"
         />
       )}
     </article>

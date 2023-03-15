@@ -22,106 +22,96 @@ export default function useApplicationData() {
       axios.get(interviewerAPI),
     ]).then((all) => {
       const [days, appointments, interviewers] = all;
-      
+
       setState((prev) => ({
         ...prev,
         days: days.data,
         appointments: appointments.data,
         interviewers: interviewers.data,
       }));
-      
     });
   }, []);
 
   const setSpots = (state) => {
-
     let spotCount = 0;
     for (let day in state.days) {
       if (state.days[day].name === state.day) {
         for (let id of state.days[day].appointments) {
           if (state.appointments[id].interview === null) {
             spotCount++;
-
           }
         }
       }
     }
-    return state.days.map(day => {
+    return state.days.map((day) => {
       if (day.name !== state.day) {
         return day;
       }
       return {
         ...day,
-        spots: spotCount
+        spots: spotCount,
       };
     });
-  }
+  };
 
   function bookInterview(id, interview) {
-    console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
-      interview: { ...interview }
+      interview: { ...interview },
     };
     const appointments = {
       ...state.appointments,
-      [id]: appointment
-    }
-    let newState = {...state, appointments}
-    let newDays = setSpots(newState)
-    newState.days = newDays
-
-    return axios.put(`/api/appointments/${id}`,{interview})
-    .then((res) =>{
-      setState(newState)
-    })
+      [id]: appointment,
     };
+    let newState = { ...state, appointments };
+    let newDays = setSpots(newState);
+    newState.days = newDays;
+
+    return axios.put(`/api/appointments/${id}`, { interview }).then((res) => {
+      setState(newState);
+    });
+  }
 
   function cancelInterview(id, interview) {
-      console.log(id, interview);
-      const appointment = {
-        ...state.appointments[id],
-        interview: null
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment}
-        
-      let newState = {...state, appointments}
-      let newDays = setSpots(newState)
-      newState.days = newDays
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
 
-      return axios.delete(`/api/appointments/${id}`)
-        .then((res) =>{
-          setState(newState)
-        })
-      
-      };
+    let newState = { ...state, appointments };
+    let newDays = setSpots(newState);
+    newState.days = newDays;
+
+    return axios.delete(`/api/appointments/${id}`).then((res) => {
+      setState(newState);
+    });
+  }
 
   function editInterview(id, interview) {
-        console.log(id, interview);
-        const appointment = {
-          ...state.appointments[id],
-          interview: { ...interview }
-        };
-        const appointments = {
-          ...state.appointments,
-          [id]: appointment}
-    
-        return axios.put(`/api/appointments/${id}`,{interview})
-        .then((res) =>{
-          setState({...state, appointments})
-        })
-        };
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
 
-        return {
-          state, 
-          setDay,
-          setSpots,
-          bookInterview,
-          cancelInterview,
-          editInterview
-        };
-        
+    return axios.put(`/api/appointments/${id}`, { interview }).then((res) => {
+      setState({ ...state, appointments });
+    });
+  }
 
+  return {
+    state,
+    setDay,
+    setSpots,
+    bookInterview,
+    cancelInterview,
+    editInterview,
+  };
 }
