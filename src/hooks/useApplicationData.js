@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useApplicationData() {
+
+  // Define initial state values
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -10,8 +12,10 @@ export default function useApplicationData() {
     appointments: {},
   });
 
+  // Define a function to update the selected day in state
   const setDay = (day) => setState({ ...state, day });
 
+  // Fetch data from the server when the component mounts using useEffect
   useEffect(() => {
     const daysAPI = `/api/days`;
     const appointmentAPI = `/api/appointments`;
@@ -32,6 +36,7 @@ export default function useApplicationData() {
     });
   }, []);
 
+  // Function to update the available spots remaining for an appointment based on the current state
   const setSpots = (state) => {
     let spotCount = 0;
     for (let day in state.days) {
@@ -54,6 +59,7 @@ export default function useApplicationData() {
     });
   };
 
+  // Function to book an appointment by updating state and sending a PUT request to the server
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -72,6 +78,7 @@ export default function useApplicationData() {
     });
   }
 
+  // Function to cancel an appointment by updating state and sending a DELETE request to the server
   function cancelInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -91,6 +98,7 @@ export default function useApplicationData() {
     });
   }
 
+  // Function to edit an existing appointment by updating state and sending a PUT request to the server
   function editInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -105,7 +113,8 @@ export default function useApplicationData() {
       setState({ ...state, appointments });
     });
   }
-
+  
+  // Return state and all functions for use in other components
   return {
     state,
     setDay,

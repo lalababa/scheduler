@@ -1,28 +1,20 @@
 import React from "react";
 
+// Importing the styles for the Application component
 import "components/Application.scss";
 
+// Importing the Appointment and DayList components, and some helper functions
 import Appointment from "./Appointment";
-
 import DayList from "./DayList";
-
 import { getAppointmentsForDay,  getInterviewersForDay, getInterview } from "helpers/selectors";
 
+// Importing a custom hook that manages the application state
 import useApplicationData from "hooks/useApplicationData";
 
-// import { useEffect } from "react";
-
-// import axios from "axios";
-
+// Defining the Application component
 export default function Application(props) {
-  
-  //const [days, setDays] = useState([]);
 
-  // useEffect (() => {
-  //   axios.get('/api/days')
-  //   .then(responce => setDays=(responce))
-  // },[])
-
+  // Destructuring the state and functions from the custom hook
   const {
     state,
     setDay,
@@ -31,12 +23,17 @@ export default function Application(props) {
     editInterview
   } = useApplicationData();
   
+  // Getting the daily appointments and interviewers for the selected day
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
 
+  // Mapping over the daily appointments to create an array of Appointment components
   const schedule = dailyAppointments.map((appointment) => {
+
+  // Getting the interview data for the current appointment, if it exists
   const interview = getInterview(state, appointment.interview);
     
+    // Returning an Appointment component with props
     return (
       <Appointment
         key={appointment.id}
@@ -51,6 +48,7 @@ export default function Application(props) {
     );
   });
 
+  // Returning the JSX for the Application component
   return (
     <main className="layout">
       <section className="sidebar">

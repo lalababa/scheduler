@@ -12,18 +12,5 @@ export default function Button(props) {
    return (
       <button className={buttonClass} onClick={props.onClick} disabled={props.disabled} >{props.children}</button>
    );
-   
-   
-   // const buttonClass = classNames('button', 
-   //    {
-   //    "button--comfirm" : props.confirm,
-   //    "button--danger" : props.danger
-   //    }
-   // )
 
-   // return <button 
-   // className={buttonClass}
-   // onClick={props.onClick}
-   // disabled={props.disabled}
-   // >{props.children}</button>
 }

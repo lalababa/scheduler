@@ -1,16 +1,16 @@
+//Import statements for necessary components and hooks
 import "./styles.scss";
-// import Header from "./Header";
 import React from "react";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
 import Error from "./Error";
-
 import useVisualMode from "hooks/useVisualMode";
 import Confirm from "./Confirm";
 
 export default function Appointment(props) {
+  //Define constants for each possible state of the appointment
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -21,11 +21,12 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
+  //Use the useVisualMode hook to manage the state of the appointment component
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
-  //create a interview info in backend
+  //A function that creates a new interview and updates the state of the component
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -39,7 +40,7 @@ export default function Appointment(props) {
     .catch(error => transition(ERROR_SAVE, true));
   }
 
-  //delete a inverview info
+  //A function that cancels an existing interview and updates the state of the component.
   function cancel(name, interviewer) {
     transition(DELETING,true)
     props.cancelInterview(props.id)
@@ -49,6 +50,7 @@ export default function Appointment(props) {
 
   return (
     
+    // Render the Appointment component with different modes based on the current mode
     <article className="appointment" data-testid="appointment">
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && props.interview && (
