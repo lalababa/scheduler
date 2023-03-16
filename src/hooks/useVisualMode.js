@@ -8,7 +8,7 @@ export default function useVisualMode(initial) {
   const transition = (newMode, replace) => {
     // If "replace" is not true, this code updates the "history" array by adding "newMode" to the end
     if (!replace) {
-      setHistory([...history, newMode])
+      setHistory(prev => [...prev, newMode])
     }
     // This code updates the "mode" state variable with the new mode
     setMode(newMode)
@@ -18,12 +18,12 @@ export default function useVisualMode(initial) {
   const back = () => {
     // If the history array only contains one mode, there's no previous mode to go back to, so this code returns
     if (history.length === 1) return;
-    const newHistory = history.slice(0,history.length - 1)
-    setHistory([...newHistory])
-    setMode(newHistory[newHistory.length - 1])
+    // const newHistory = history.slice(0,history.length - 1)
+    setHistory(prev => prev.slice(0,history.length - 1))
+    setMode(prev => prev[prev.length - 1])
   };
 
-  // This code returns an object containing the "mode", "transition", and "back" functions
+  
   return { 
     mode,
     transition,

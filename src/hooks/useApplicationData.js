@@ -18,6 +18,7 @@ export default function useApplicationData() {
   // Fetch data from the server when the component mounts using useEffect
   useEffect(() => {
     const daysAPI = `/api/days`;
+
     const appointmentAPI = `/api/appointments`;
     const interviewerAPI = `/api/interviewers`;
     Promise.all([

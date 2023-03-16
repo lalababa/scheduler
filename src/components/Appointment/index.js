@@ -8,6 +8,7 @@ import Status from "./Status";
 import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
 import Confirm from "./Confirm";
+import Header from "./Header";
 
 export default function Appointment(props) {
   //Define constants for each possible state of the appointment
@@ -52,6 +53,8 @@ export default function Appointment(props) {
     
     // Render the Appointment component with different modes based on the current mode
     <article className="appointment" data-testid="appointment">
+      <Header time={props.time}/>
+      
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && props.interview && (
       <Show
@@ -81,7 +84,7 @@ export default function Appointment(props) {
       {mode === EDITING && (
         <Form
         name={props.interview.student}
-        interviewer={props.interview.interviewer.id}
+        interviewer={props?.interview?.interviewer?.id}
         interviewers={props.interviewers}
         onSave={save}
         onCancel={back}
